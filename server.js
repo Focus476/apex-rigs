@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Setup LowDB (Pure JS Database)
+// Setup LowDB (Pure JS Database stored in db.json)
 const file = path.join(__dirname, 'db.json');
 const adapter = new JSONFile(file);
 const defaultData = { users: [] };
@@ -26,6 +26,11 @@ async function initDB() {
     await db.write();
 }
 initDB();
+
+// Explicit Root Route to serve frontend
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Register Route
 app.post('/api/register', async (req, res) => {
@@ -79,7 +84,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Check Session Route
-app.get('/api/session', (req, res) => {
+app.get('/api/session', async (req, res) => {
     const userSession = req.cookies.userSession;
     if (userSession) {
         res.json({ loggedIn: true, username: userSession });

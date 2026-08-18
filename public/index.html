@@ -81,21 +81,18 @@
             display: block;
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1200&q=80') center/cover;
             border: 1px solid var(--border-color);
             padding: 80px 40px;
             text-align: center;
             margin-bottom: 40px;
-            border-radius: 4px;
         }
 
         .hero h1 {
             color: var(--pure-white);
             font-size: 42px;
             margin-bottom: 15px;
-            letter-spacing: 1px;
         }
 
         .hero p {
@@ -104,7 +101,6 @@
             margin-bottom: 30px;
         }
 
-        /* Buttons */
         .btn {
             background-color: var(--crimson-red);
             color: var(--pure-white);
@@ -113,7 +109,6 @@
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
-            letter-spacing: 1px;
             transition: background-color 0.2s;
             text-transform: uppercase;
         }
@@ -122,7 +117,6 @@
             background-color: var(--crimson-hover);
         }
 
-        /* Grid Layouts */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -134,23 +128,12 @@
             border: 1px solid var(--border-color);
             padding: 20px;
             text-align: center;
-            transition: border-color 0.2s;
-        }
-
-        .card:hover {
-            border-color: var(--crimson-red);
         }
 
         .card h3 {
             color: var(--pure-white);
             margin: 15px 0 10px 0;
             font-size: 20px;
-        }
-
-        .card p {
-            color: #999;
-            font-size: 14px;
-            margin-bottom: 15px;
         }
 
         .price {
@@ -161,7 +144,6 @@
             display: block;
         }
 
-        /* Forms */
         .form-container {
             max-width: 400px;
             margin: 0 auto;
@@ -183,21 +165,14 @@
             font-weight: 600;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input {
             width: 100%;
             padding: 10px;
             background: var(--bg-color);
             border: 1px solid var(--border-color);
             color: var(--pure-white);
-            font-size: 14px;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--crimson-red);
-            outline: none;
-        }
-
-        /* Footer */
         footer {
             background-color: var(--surface-color);
             border-top: 1px solid var(--border-color);
@@ -219,8 +194,6 @@
         <div class="logo" onclick="switchView('home')">APEX<span>RIGS</span></div>
         <nav>
             <a onclick="switchView('home')" id="nav-home" class="active">Home</a>
-            <a onclick="switchView('news')" id="nav-news">News</a>
-            <a onclick="switchView('contact')" id="nav-contact">Contact Us</a>
             <a onclick="switchView('login')" id="nav-login">Login</a>
             <a onclick="switchView('register')" id="nav-register">Register</a>
             <a onclick="switchView('cart')" id="nav-cart">Cart (<span id="cart-count">0</span>)</a>
@@ -228,116 +201,51 @@
     </header>
 
     <div class="container">
-        
         <div id="view-home" class="view active">
             <div class="hero">
                 <h1>ENGINEERED FOR EXCELLENCE</h1>
                 <p>High-end custom builds styled in pure white and aggressive crimson.</p>
                 <button class="btn" onclick="switchView('shop')">Explore Rigs</button>
             </div>
-
-            <h2 style="color:var(--pure-white); margin-bottom: 20px;">Featured Systems</h2>
             <div class="grid">
                 <div class="card">
                     <h3 style="color:var(--crimson-red);">APEX TITAN X</h3>
-                    <p>RTX 4090 | i9-14900KS | 64GB DDR5 White Edition</p>
+                    <p style="color:#999; font-size:14px; margin-bottom:15px;">RTX 4090 | i9-14900KS | 64GB DDR5</p>
                     <span class="price">$3,899.00</span>
                     <button class="btn" onclick="addToCart('APEX TITAN X', 3899)">Add to Cart</button>
                 </div>
-                <div class="card">
-                    <h3 style="color:var(--crimson-red);">APEX PHANTOM</h3>
-                    <p>RTX 4080 Super | Ryzen 7 7800X3D | 32GB RAM</p>
-                    <span class="price">$2,699.00</span>
-                    <button class="btn" onclick="addToCart('APEX PHANTOM', 2699)">Add to Cart</button>
-                </div>
-                <div class="card">
-                    <h3 style="color:var(--crimson-red);">APEX SPECTRE</h3>
-                    <p>RTX 4070 Ti | i7-14700K | Custom Liquid Loop</p>
-                    <span class="price">$2,199.00</span>
-                    <button class="btn" onclick="addToCart('APEX SPECTRE', 2199)">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-news" class="view">
-            <h2 style="color:var(--pure-white); margin-bottom: 20px;">Latest Tech Briefs</h2>
-            <div class="card" style="text-align: left; margin-bottom: 20px;">
-                <span style="color: var(--crimson-red); font-size: 12px; font-weight:700;">AUGUST 2026</span>
-                <h3 style="color:var(--pure-white); margin-top: 5px;">The Red & White Thermal Evolution</h3>
-                <p>Discover how our custom-braided crimson cabling airflow configurations maximize thermal performance without losing minimalist white aesthetics.</p>
-            </div>
-        </div>
-
-        <div id="view-contact" class="view">
-            <div class="form-container">
-                <h2 style="color:var(--pure-white); margin-bottom: 20px; text-align: center;">Get In Touch</h2>
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" placeholder="John Doe">
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="john@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Message</label>
-                    <textarea rows="4" placeholder="Tell us your custom specs..."></textarea>
-                </div>
-                <button class="btn" style="width: 100%;" onclick="alert('Message sent successfully!')">Send Message</button>
             </div>
         </div>
 
         <div id="view-login" class="view">
             <div class="form-container">
                 <h2 style="color:var(--pure-white); margin-bottom: 20px; text-align: center;">Client Login</h2>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password">
-                </div>
-                <button class="btn" style="width: 100%;" onclick="alert('Logged in successfully!')">Login</button>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group"><label>Email</label><input type="email" id="login-email" required></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="login-password" required></div>
+                    <button type="submit" class="btn" style="width: 100%;">Login</button>
+                </form>
             </div>
         </div>
 
         <div id="view-register" class="view">
             <div class="form-container">
                 <h2 style="color:var(--pure-white); margin-bottom: 20px; text-align: center;">Create Account</h2>
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password">
-                </div>
-                <button class="btn" style="width: 100%;" onclick="alert('Account created!')">Register</button>
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group"><label>Username</label><input type="text" id="reg-username" required></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="reg-email" required></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="reg-password" required></div>
+                    <button type="submit" class="btn" style="width: 100%;">Register</button>
+                </form>
             </div>
         </div>
 
         <div id="view-cart" class="view">
             <h2 style="color:var(--pure-white); margin-bottom: 20px;">Your Cart</h2>
-            <div id="cart-items" style="background:var(--surface-color); border:1px solid var(--border-color); padding: 20px; margin-bottom: 20px;">
-                <p style="color:#777;">Your cart is currently empty.</p>
-            </div>
-            <div id="checkout-section" style="display:none;">
-                <h3 style="color:var(--pure-white); margin-bottom: 15px;">Checkout Simulation</h3>
-                <div class="form-container" style="margin: 0; max-width: 100%;">
-                    <div class="form-group">
-                        <label>Shipping Address</label>
-                        <input type="text" placeholder="123 Silicon Valley Way">
-                    </div>
-                    <button class="btn" onclick="completeCheckout()">Complete Order ($<span id="cart-total">0</span>)</button>
-                </div>
+            <div id="cart-items" style="background:var(--surface-color); border:1px solid var(--border-color); padding: 20px;">
+                <p style="color:#777;">Your cart is empty.</p>
             </div>
         </div>
-
     </div>
 
     <footer>
@@ -349,52 +257,46 @@
 
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            
-            // Handle shop routing alias to home for simplicity in single-file view
             let target = viewId === 'shop' ? 'home' : viewId;
             document.getElementById('view-' + target).classList.add('active');
-            
-            let navEl = document.getElementById('nav-' + target);
-            if(navEl) navEl.classList.add('active');
             window.scrollTo(0, 0);
         }
 
         function addToCart(name, price) {
             cart.push({ name, price });
-            updateCartUI();
+            document.getElementById('cart-count').innerText = cart.length;
             alert(name + " added to your cart!");
         }
 
-        function updateCartUI() {
-            document.getElementById('cart-count').innerText = cart.length;
-            let container = document.getElementById('cart-items');
-            let checkoutSec = document.getElementById('checkout-section');
-            
-            if (cart.length === 0) {
-                container.innerHTML = '<p style="color:#777;">Your cart is currently empty.</p>';
-                checkoutSec.style.display = 'none';
-            } else {
-                let html = '';
-                let total = 0;
-                cart.forEach((item, index) => {
-                    total += item.price;
-                    html += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:8px;">
-                        <span>${item.name}</span>
-                        <span style="color:var(--crimson-red); font-weight:700;">$${item.price}</span>
-                    </div>`;
-                });
-                container.innerHTML = html;
-                document.getElementById('cart-total').innerText = total;
-                checkoutSec.style.display = 'block';
-            }
+        async function handleRegister(e) {
+            e.preventDefault();
+            let res = await fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: document.getElementById('reg-username').value,
+                    email: document.getElementById('reg-email').value,
+                    password: document.getElementById('reg-password').value
+                })
+            });
+            let data = await res.json();
+            alert(data.message || data.error);
+            if(res.ok) switchView('login');
         }
 
-        function completeCheckout() {
-            alert('Order processed successfully! Thank you for choosing Apex Rigs.');
-            cart = [];
-            updateCartUI();
-            switchView('home');
+        async function handleLogin(e) {
+            e.preventDefault();
+            let res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: document.getElementById('login-email').value,
+                    password: document.getElementById('login-password').value
+                })
+            });
+            let data = await res.json();
+            alert(data.message || data.error);
+            if(res.ok) switchView('home');
         }
     </script>
 </body>
