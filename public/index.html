@@ -119,7 +119,7 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
 
@@ -128,12 +128,23 @@
             border: 1px solid var(--border-color);
             padding: 20px;
             text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--crimson-red);
         }
 
         .card h3 {
             color: var(--pure-white);
             margin: 15px 0 10px 0;
             font-size: 20px;
+        }
+
+        .card p {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 15px;
         }
 
         .price {
@@ -207,12 +218,45 @@
                 <p>High-end custom builds styled in pure white and aggressive crimson.</p>
                 <button class="btn" onclick="switchView('shop')">Explore Rigs</button>
             </div>
+
+            <h2 style="color:var(--pure-white); margin-bottom: 25px;">Flagship Inventory</h2>
+            
             <div class="grid">
                 <div class="card">
                     <h3 style="color:var(--crimson-red);">APEX TITAN X</h3>
-                    <p style="color:#999; font-size:14px; margin-bottom:15px;">RTX 4090 | i9-14900KS | 64GB DDR5</p>
+                    <p>RTX 4090 | i9-14900KS | 64GB DDR5 White Edition</p>
                     <span class="price">$3,899.00</span>
                     <button class="btn" onclick="addToCart('APEX TITAN X', 3899)">Add to Cart</button>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--crimson-red);">APEX PHANTOM</h3>
+                    <p>RTX 4080 Super | Ryzen 7 7800X3D | 32GB RAM</p>
+                    <span class="price">$2,699.00</span>
+                    <button class="btn" onclick="addToCart('APEX PHANTOM', 2699)">Add to Cart</button>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--crimson-red);">APEX SPECTRE</h3>
+                    <p>RTX 4070 Ti | i7-14700K | Custom Liquid Loop</p>
+                    <span class="price">$2,199.00</span>
+                    <button class="btn" onclick="addToCart('APEX SPECTRE', 2199)">Add to Cart</button>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--crimson-red);">APEXVALOR</h3>
+                    <p>RTX 4060 Ti | Ryzen 5 7600X | 32GB RGB White</p>
+                    <span class="price">$1,599.00</span>
+                    <button class="btn" onclick="addToCart('APEX VALOR', 1599)">Add to Cart</button>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--crimson-red);">APEX OMEGA</h3>
+                    <p>Dual RTX 4090 Workstation | Threadripper PRO</p>
+                    <span class="price">$6,499.00</span>
+                    <button class="btn" onclick="addToCart('APEX OMEGA', 6499)">Add to Cart</button>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--crimson-red);">APEX ECLIPSE</h3>
+                    <p>RX 7900 XTX | i7-14700KF | Silver/White Chassis</p>
+                    <span class="price">$2,399.00</span>
+                    <button class="btn" onclick="addToCart('APEX ECLIPSE', 2399)">Add to Cart</button>
                 </div>
             </div>
         </div>
