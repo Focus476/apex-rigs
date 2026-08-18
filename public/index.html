@@ -296,20 +296,71 @@
         <p>&copy; 2026 APEX RIGS. Built with <span>crimson & steel</span>.</p>
     </footer>
 
-    <script>
-        let cart = [];
+   <script>
+        // Load cart from localStorage on startup so it persists
+        let cart = JSON.parse(localStorage.getItem('apex_cart')) || [];
+        updateCartCount();
 
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             let target = viewId === 'shop' ? 'home' : viewId;
             document.getElementById('view-' + target).classList.add('active');
+            
+            if (viewId === 'cart') {
+                renderCart();
+            }
             window.scrollTo(0, 0);
         }
 
         function addToCart(name, price) {
             cart.push({ name, price });
-            document.getElementById('cart-count').innerText = cart.length;
+            localStorage.setItem('apex_cart', JSON.stringify(cart));
+            updateCartCount();
             alert(name + " added to your cart!");
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('apex_cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCart();
+        }
+
+        function renderCart() {
+            let container = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color:#777;">Your cart is empty.</p>';
+                return;
+            }
+
+            let html = '<div style="display:flex; flex-direction:column; gap:15px;">';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:10px;">
+                        <div>
+                            <h4 style="color:white; font-size:16px;">${item.name}</h4>
+                            <span style="color:#aaa; font-size:14px;">$${item.price.toLocaleString()}</span>
+                        </div>
+                        <button onclick="removeFromCart(${index})" style="background:#cc0000; color:white; border:none; padding:5px 10px; cursor:pointer; font-size:12px;">Remove</button>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
+                    <h3 style="color:white;">Total: $${total.toLocaleString()}</h3>
+                    <button class="btn" onclick="alert('Checkout feature coming soon!')">Checkout</button>
+                </div>
+            </div>`;
+
+            container.innerHTML = html;
         }
 
         async function handleRegister(e) {
