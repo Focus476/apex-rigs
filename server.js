@@ -1,77 +1,84 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const bcrypt = reqire('bcrypt.js');
+const { Low } = require('lowdb');
+const { JSONFile } = require('lowdb/node');
+const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
-
+const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-//middleware 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Setup LowDB (Pure JS Database)
+const file = path.join(__dirname, 'db.json');
+const adapter = new JSONFile(file);
+const defaultData = { users: [] };
+const db = new Low(adapter, defaultData);
 
-//initialize the database
-const db = new sqlite3.Database('./apex.db', (err) => {
-    if (err) console.error('Database opening error; ' + err.message);
-    else console.log('connected to the SQLite database.');
-});
+async function initDB() {
+    await db.read();
+    db.data ||= defaultData;
+    await db.write();
+}
+initDB();
 
-//create users table if it doesn't exist
-db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    email TEXT UNIQUE,
-    password TEXT
-)`);
-
-
-//register route
+// Register Route
 app.post('/api/register', async (req, res) => {
-    const {username, email, password} = req.body;
+    const { username, email, password } = req.body;
+    
+    await db.read();
+    const existingUser = db.data.users.find(u => u.email === email || u.username === username);
+    
+    if (existingUser) {
+        return res.status(400).json({ error: 'Username or email already exists.' });
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        db.run(
-            `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`,
-            [username, email, hashedPassword],
-            function(err) {
-                if (err) {
-                    return res.status(400).json({ error: 'User already exists' });
-                }
-                res.json({ message: 'User registered successfully',});
-            }
-        );
+        db.data.users.push({
+            id: Date.now(),
+            username,
+            email,
+            password: hashedPassword
+        });
+        await db.write();
+        
+        res.json({ message: 'User registered successfully!' });
     } catch {
-        res.status(500).json({ error: 'Server error during registration' });
+        res.status(500).json({ error: 'Server error during registration.' });
     }
 });
 
-
-//login route(cookies)
-app.post('/api/login', (req, res) => {
+// Login Route (Sets a Cookie)
+app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
-    db.get(`SELECT * FROM users WHERE email = ?`, [email], async (err, user) => {
-        if (err || !user) {
-            return res.status(400).json({ error: 'Invalid email or password.' });
-        }
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid email or password.' });
-        }
+    
+    await db.read();
+    const user = db.data.users.find(u => u.email === email);
+    
+    if (!user) {
+        return res.status(400).json({ error: 'Invalid email or password.' });
+    }
 
-        // Set an HTTP-only cookie for session tracking
-        res.cookie('userSession', user.username, { 
-            maxAge: 900000, 
-            httpOnly: true 
-        });
-        res.json({ message: `Welcome back, ${user.username}!` });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        return res.status(400).json({ error: 'Invalid email or password.' });
+    }
+
+    // Set an HTTP-only cookie for session tracking
+    res.cookie('userSession', user.username, { 
+        maxAge: 900000, 
+        httpOnly: true 
     });
+    res.json({ message: `Welcome back, ${user.username}!` });
 });
 
-// Check Session Route (Reads Cookie & Database)
+// Check Session Route
 app.get('/api/session', (req, res) => {
     const userSession = req.cookies.userSession;
     if (userSession) {
@@ -81,12 +88,12 @@ app.get('/api/session', (req, res) => {
     }
 });
 
-// Logout Route (Clears Cookie)
+// Logout Route
 app.post('/api/logout', (req, res) => {
     res.clearCookie('userSession');
     res.json({ message: 'Logged out successfully.' });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
